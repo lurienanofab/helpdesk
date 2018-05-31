@@ -36,7 +36,7 @@ class RssFeed {
     $result .= "    <language>en-us</language>\r\n";
     
     if ($rs !== false) {
-      while (($row = mysql_fetch_assoc($rs)) !== false) {
+      while (($row = mysqli_fetch_assoc($rs)) !== false) {
         $result .= "    <item>\r\n";
         $result .= "      <title>Ticket #{$row['ticketID']} (sent by {$row['sender_email']})</" . "title>\r\n";
         $result .= "      <link>http://lnf.umich.edu/helpdesk/view.php?id={$row['ticketID']}</link>\r\n";

@@ -108,7 +108,7 @@ if(file_exists('../ostconfig.php') || file_exists('../include/settings.php')) { 
         //Select the DB
         if(!$errors && !db_select_database($_POST['dbname'])) {
             //Try creating the missing DB
-            if(!mysql_query('CREATE DATABASE '.$_POST['dbname'].' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci')) {
+            if(!mysqli_query('CREATE DATABASE '.$_POST['dbname'].' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci')) {
                 $errors['dbname']='Database doesn\'t exist';
                 $errors['mysql']='Unable to create the database due to permission';
             }elseif(!db_select_database($_POST['dbname'])) {
@@ -155,21 +155,21 @@ if(file_exists('../ostconfig.php') || file_exists('../include/settings.php')) { 
                         ',email='.db_input($_POST['email']).',firstname='.db_input('Admin').',lastname='.db_input('Admin').
                         ',username='.db_input($_POST['username']).',passwd='.db_input(MD5($_POST['password'])).
                         ',timezone_offset='.db_input($tzoffset);
-                    mysql_query($sql);
+                    mysqli_query($sql);
                     //Add emails - hopefully the domain is actually valid
                     list($uname,$domain)=explode('@',$_POST['sysemail']);
                     //1 - main support email
                     $sql='INSERT INTO '.PREFIX.'email SET created=NOW(),updated=NOW(),priority_id=2,dept_id=1'.
                          ',name='.db_input('Support').',email='.db_input($_POST['sysemail']);
-                    mysql_query($sql);
+                    mysqli_query($sql);
                     //2 - alert email
                     $sql='INSERT INTO '.PREFIX.'email SET created=NOW(),updated=NOW(),priority_id=1,dept_id=1'.
                          ',name='.db_input('osTicket Alerts').',email='.db_input('alerts@'.$domain);
-                    mysql_query($sql);
+                    mysqli_query($sql);
                     //3 - noreply email
                     $sql='INSERT INTO '.PREFIX.'email SET created=NOW(),updated=NOW(),priority_id=1,dept_id=1'.
                          ',name='.db_input('').',email='.db_input('noreply@'.$domain);
-                    mysql_query($sql);
+                    mysqli_query($sql);
                     //config info 
                     $sql='INSERT INTO '.PREFIX.'config SET updated=NOW() '.
                          ',isonline=0,default_email_id=1,alert_email_id=2,default_dept_id=1,default_template_id=1'.
@@ -178,7 +178,7 @@ if(file_exists('../ostconfig.php') || file_exists('../include/settings.php')) { 
                          ',admin_email='.db_input($_POST['email']).
                          ',helpdesk_url='.db_input(URL).
                          ',helpdesk_title='.db_input($_POST['title']);
-                    mysql_query($sql);
+                    mysqli_query($sql);
                     //Create a ticket to make the system warm and happy.
                     $sql='INSERT INTO '.PREFIX.'ticket SET created=NOW(),ticketID='.db_input(Misc::randNumber(6)).
                         ",priority_id=2,dept_id=1,email='support@osticket.com',name='osTicket Support' ".
@@ -191,7 +191,7 @@ if(file_exists('../ostconfig.php') || file_exists('../include/settings.php')) { 
                          ',title="osTicket installed!",log_type="Debug" '.
                          ',log='.db_input("Congratulations osTicket basic installation completed!\n\nThank you for choosing osTicket!").
                          ',ip_address='.db_input($_SERVER['REMOTE_ADDR']);
-                    mysql_query($sql);
+                    mysqli_query($sql);
                     $msg='Congratulations osTicket basic installation completed!';
                     $inc='done.inc.php';
                 }else{

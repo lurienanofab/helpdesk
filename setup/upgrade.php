@@ -183,7 +183,7 @@ if(!strcasecmp($cfg->getVersion(),VERSION)) {
              ',title="osTicket upgraded!",log_type="Debug" '.
              ',log='.db_input($log).
              ',ip_address='.db_input($_SERVER['REMOTE_ADDR']);
-        mysql_query($sql);
+        mysqli_query($sql);
 
         //Create a ticket
         $sql='INSERT INTO '.PREFIX.'ticket SET created=NOW(),ticketID='.db_input(Misc::randNumber(6)).

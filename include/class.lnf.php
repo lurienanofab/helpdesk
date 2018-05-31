@@ -80,10 +80,10 @@ class LNF{
 	public static function Log($type, $title, $log, $logger){
 		db_query(
 			"INSERT ost_syslog_lnf (log_type, title, log, logger, ip_address, created, updated) VALUES (".
-			"'".mysql_real_escape_string($type)."'".
-			", '".mysql_real_escape_string($title)."'".
-			", '".mysql_real_escape_string($log)."'".
-			", '".mysql_real_escape_string($logger)."'".
+			"'".mysqli_real_escape_string($type)."'".
+			", '".mysqli_real_escape_string($title)."'".
+			", '".mysqli_real_escape_string($log)."'".
+			", '".mysqli_real_escape_string($logger)."'".
 			", '".LNF::GetIP()."', NOW(), NOW())"
 		);
 	}
@@ -204,7 +204,7 @@ class LNF{
 
       if (isset($ticketSubj)){
         if (strlen($ticketSubj)>0){
-          $subj = mysql_real_escape_string($ticketSubj);
+          $subj = mysqli_real_escape_string($ticketSubj);
           $sql = "UPDATE ".TICKET_TABLE." SET subject = '$subj' WHERE ticket_id = ".$ticket->getId();
           db_query($sql);
         }
@@ -241,7 +241,7 @@ class LNF{
 	}
    
 	public static function selectTicketsByEmail($email, $status = 'open', $sdate = '', $edate = ''){
-		$email = mysql_real_escape_string($email);
+		$email = mysqli_real_escape_string($email);
 		$status = (empty($status)) ? "NULL" : "'$status'";
 		$sql = "SELECT t.*, IFNULL(tr.resource_id, 0) AS 'resource_id', tp.priority_desc, tp.priority_urgency, CONCAT(s.lastname, ', ', s.firstname) AS 'assigned_to' FROM ".TICKET_TABLE." t LEFT JOIN ".TICKET_RESOURCE_TABLE." tr ON t.ticket_id = tr.ticket_id INNER JOIN ".TICKET_PRIORITY_TABLE." tp ON tp.priority_id = t.priority_id LEFT JOIN ".STAFF_TABLE." s ON s.staff_id = t.staff_id WHERE t.email LIKE '$email' AND t.status = IFNULL($status, t.status)".LNF::whereDateRange('AND', 't.created', $sdate, $edate)." ORDER BY t.created ASC";
 		$result = db_assoc_array(db_query($sql));
@@ -269,16 +269,16 @@ class LNF{
 	}
    
 	public static function where($criteria){
-		$ticketId = mysql_real_escape_string(LNF::getval($criteria, 'ticket_id', 0));
-		$resourceId = mysql_real_escape_string(LNF::getval($criteria, 'resource_id', 0));
-		$assignedTo = mysql_real_escape_string(LNF::getval($criteria, 'assigned_to', ''));
-		$unassigned = mysql_real_escape_string(LNF::getval($criteria, 'unassigned', ''));
-		$email = mysql_real_escape_string(LNF::getval($criteria, 'email', ''));
-		$name = mysql_real_escape_string(LNF::getval($criteria, 'name', ''));
-		$status = mysql_real_escape_string(LNF::getval($criteria, 'status', ''));
-		$sdate = mysql_real_escape_string(LNF::getval($criteria, 'sdate', ''));
-		$edate = mysql_real_escape_string(LNF::getval($criteria, 'edate', ''));
-		$priorityDesc = mysql_real_escape_string(LNF::getval($criteria, 'priority_desc', ''));
+		$ticketId = mysqli_real_escape_string(LNF::getval($criteria, 'ticket_id', 0));
+		$resourceId = mysqli_real_escape_string(LNF::getval($criteria, 'resource_id', 0));
+		$assignedTo = mysqli_real_escape_string(LNF::getval($criteria, 'assigned_to', ''));
+		$unassigned = mysqli_real_escape_string(LNF::getval($criteria, 'unassigned', ''));
+		$email = mysqli_real_escape_string(LNF::getval($criteria, 'email', ''));
+		$name = mysqli_real_escape_string(LNF::getval($criteria, 'name', ''));
+		$status = mysqli_real_escape_string(LNF::getval($criteria, 'status', ''));
+		$sdate = mysqli_real_escape_string(LNF::getval($criteria, 'sdate', ''));
+		$edate = mysqli_real_escape_string(LNF::getval($criteria, 'edate', ''));
+		$priorityDesc = mysqli_real_escape_string(LNF::getval($criteria, 'priority_desc', ''));
 		$result = '';
 		$and = ' WHERE';
 		if (is_numeric($ticketId) && $ticketId > 0){
@@ -332,10 +332,10 @@ class LNF{
    private static function whereDateRange($and, $column, $sdate, $edate){
 		$and = trim($and);
 		$result = '';
-		$result .= (!empty($sdate)) ? " $and $column >= '".mysql_real_escape_string($sdate)."'" : '';
+		$result .= (!empty($sdate)) ? " $and $column >= '".mysqli_real_escape_string($sdate)."'" : '';
 		if (!empty($edate)){
 			$result .= (!empty($result)) ? ' AND' : " $and";
-			$result .= " $column < '".mysql_real_escape_string($edate)."'";
+			$result .= " $column < '".mysqli_real_escape_string($edate)."'";
 		}
 		return $result;
    }

@@ -23,42 +23,56 @@
         if(!strlen($dbuser) || !strlen($dbpass) || !strlen($dbhost))
       	    return NULL;
 
-        @$$dblink =mysql_connect($dbhost, $dbuser, $dbpass);
+        @$$dblink =mysqli_connect($dbhost, $dbuser, $dbpass);
         if($$dblink && $dbname)
-            @mysql_select_db($dbname);
+            @mysqli_select_db($dbname);
         //set desired encoding just in case mysql charset is not UTF-8 - Thanks to FreshMedia
         if($$dblink) {
-            @mysql_query('SET NAMES "UTF8"');
-            @mysql_query('SET COLLATION_CONNECTION=utf8_general_ci');
+            @mysqli_query('SET NAMES "UTF8"');
+            @mysqli_query('SET COLLATION_CONNECTION=utf8_general_ci');
         }
         return $$dblink;	
     }
 
     function db_close(){
         global $$dblink;
-        return @mysql_close($$dblink);
+        return @mysqli_close($$dblink);
     }
 
     function db_select_database($dbname) {
-         return @mysql_select_db($dbname);
+         return @mysqli_select_db($dbname);
     }
 
     function db_version(){
-        preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', mysql_result(db_query('SELECT VERSION()'),0,0),$matches);
+        preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', mysqli_result(db_query('SELECT VERSION()'),0,0),$matches);
         return $matches[1];
     }
-       
-	// execute sql query
-	function db_query($query, $database="",$conn=""){
+      
+    function mysqli_db_query($database, $query, $link_identifier = null){
+        if (!$link_identifier){
+            global $$dblink;
+            $link_identifier = $$dblink;
+        }
+        mysqli_select_db($link_identifier, $database);
+        return mysqli_query($link_identifier, $query);
+    }
+    
+    // execute sql query
+    function db_query($query, $database="",$conn=""){
         global $cfg;
-       
-		if($conn){ /* connection is provided*/
-            $response=($database)?mysql_db_query($database,$query,$conn):mysql_query($query,$conn);
+        
+        if (!$conn){
+            global $$dblink;
+            $conn = $$dblink;
+        }
+        
+        if($conn){ /* connection is provided*/
+            if ($database) mysqli_select_db($conn, $database);
+            $response = mysqli_query($conn, $query);
    	    }else{
-            $response=($database)?mysql_db_query($database,$query):mysql_query($query);
+            throw new Exception("No connection found!");
    	    }
-
-                
+        
         if(!$response) { //error reporting
             $alert='['.$query.']'."\n\n".db_error();
             Sys::log(LOG_ALERT,'DB Error #'.db_errno(),$alert,($cfg && $cfg->alertONSQLError()));
@@ -84,15 +98,15 @@
 	}
 
 	function db_fetch_array($result,$mode=false) {
-   	    return ($result)?db_output(mysql_fetch_array($result,($mode)?$mode:MYSQL_ASSOC)):null;
+   	    return ($result)?db_output(mysqli_fetch_array($result,($mode)?$mode:MYSQLI_ASSOC)):null;
   	}
 
     function db_fetch_row($result) {
-        return ($result)?db_output(mysql_fetch_row($result)):NULL;
+        return ($result)?db_output(mysqli_fetch_row($result)):NULL;
     }
 
     function db_fetch_fields($result) {
-        return mysql_fetch_field($result);
+        return mysqli_fetch_field($result);
     }   
 
     function db_assoc_array($result,$mode=false){
@@ -104,27 +118,27 @@
     }
 
     function db_num_rows($result) {
-   	    return ($result)?mysql_num_rows($result):0;
+   	    return ($result)?mysqli_num_rows($result):0;
     }
 
 	function db_affected_rows() {
-      return mysql_affected_rows();
+      return mysqli_affected_rows();
     }
 
   	function db_data_seek($result, $row_number) {
-   	    return mysql_data_seek($result, $row_number);
+   	    return mysqli_data_seek($result, $row_number);
   	}
 
   	function db_data_reset($result){
-   	    return mysql_data_seek($result,0);
+   	    return mysqli_data_seek($result,0);
   	}
 
   	function db_insert_id() {
-   	    return mysql_insert_id();
+   	    return mysqli_insert_id();
   	}
 
 	function db_free_result($result) {
-   	    return mysql_free_result($result);
+   	    return mysqli_free_result($result);
   	}
   
 	function db_output($param) {
@@ -150,7 +164,7 @@
         global $$dblink;
 
         //Magic quotes crap is taken care of in main.inc.php
-        $val=mysql_real_escape_string($val);
+        $val=mysqli_real_escape_string($$dblink, $val);
 
         return ($quote)?"'$val'":$val;
     }
@@ -170,12 +184,14 @@
         }
         return db_real_escape($param,$quote);
     }
-
-	function db_error(){
-   	    return mysql_error();   
-	}
-   
+    
+    function db_error(){
+        global $$dblink;
+        return mysqli_error($$dblink);
+    }
+    
     function db_errno(){
-        return mysql_errno();
+        global $$dblink;
+        return mysqli_errno($$dblink);
     }
 ?>

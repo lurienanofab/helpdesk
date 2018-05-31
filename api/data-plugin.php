@@ -36,10 +36,10 @@ abstract class DataPlugin{
     protected function writeLog($type, $title, $log, $logger){
         db_query(
             "INSERT ost_syslog_lnf (log_type, title, log, logger, ip_address, created, updated) VALUES (".
-            "'".mysql_real_escape_string($type)."'".
-            ", '".mysql_real_escape_string($title)."'".
-            ", '".mysql_real_escape_string($log)."'".
-            ", '".mysql_real_escape_string($logger)."'".
+            "'".db_real_escape($type)."'".
+            ", '".db_real_escape($title)."'".
+            ", '".db_real_escape($log)."'".
+            ", '".db_real_escape($logger)."'".
             ", '".$this->getRealIP()."', NOW(), NOW())"
         );
     }
@@ -390,17 +390,17 @@ abstract class DataPlugin{
 
     protected function where($criteria = null){
         if ($criteria == null) $criteria = $this->criteria();
-        $ticket_id = mysql_real_escape_string($this->getval("ticket_id", 0, $criteria));
-        $ticketID = mysql_real_escape_string($this->getval("ticketID", 0, $criteria));
-        $resourceId = mysql_real_escape_string($this->getval("resource_id", 0, $criteria));
-        $assignedTo = mysql_real_escape_string($this->getval("assigned_to", "", $criteria));
-        $unassigned = mysql_real_escape_string($this->getval("unassigned", "", $criteria));
-        $email = mysql_real_escape_string($this->getval("email", "", $criteria));
-        $name = mysql_real_escape_string($this->getval("name", "", $criteria));
-        $status = mysql_real_escape_string($this->getval("status", "", $criteria));
-        $sdate = mysql_real_escape_string($this->getval("sdate", "", $criteria));
-        $edate = mysql_real_escape_string($this->getval("edate", "", $criteria));
-        $priorityDesc = mysql_real_escape_string($this->getval("priority_desc", "", $criteria));
+        $ticket_id = db_real_escape($this->getval("ticket_id", 0, $criteria));
+        $ticketID = db_real_escape($this->getval("ticketID", 0, $criteria));
+        $resourceId = db_real_escape($this->getval("resource_id", 0, $criteria));
+        $assignedTo = db_real_escape($this->getval("assigned_to", "", $criteria));
+        $unassigned = db_real_escape($this->getval("unassigned", "", $criteria));
+        $email = db_real_escape($this->getval("email", "", $criteria));
+        $name = db_real_escape($this->getval("name", "", $criteria));
+        $status = db_real_escape($this->getval("status", "", $criteria));
+        $sdate = db_real_escape($this->getval("sdate", "", $criteria));
+        $edate = db_real_escape($this->getval("edate", "", $criteria));
+        $priorityDesc = db_real_escape($this->getval("priority_desc", "", $criteria));
         $result = "";
         $and = " WHERE";
         if (is_numeric($ticket_id) && $ticket_id > 0){
@@ -446,10 +446,10 @@ abstract class DataPlugin{
     protected function whereDateRange($and, $column, $sdate, $edate){
         $and = trim($and);
         $result = "";
-        $result .= (!empty($sdate)) ? " $and $column >= '".mysql_real_escape_string($sdate)."'" : "";
+        $result .= (!empty($sdate)) ? " $and $column >= '".db_real_escape($sdate)."'" : "";
         if (!empty($edate)){
             $result .= (!empty($result)) ? " AND" : " $and";
-            $result .= " $column < '".mysql_real_escape_string($edate)."'";
+            $result .= " $column < '".db_real_escape($edate)."'";
         }
         return $result;
     }

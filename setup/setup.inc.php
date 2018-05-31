@@ -45,13 +45,13 @@ function load_sql_schema($schema,&$errors,$debug=false){
         //Loadup SQL schema.
         $queries =array_map('replace_table_prefix',array_filter(array_map('trim',explode(';',$schema)))); //Don't fail me bro!
         if($queries && count($queries)) {
-            @mysql_query('SET SESSION SQL_MODE =""');
+            @mysqli_query('SET SESSION SQL_MODE =""');
             foreach($queries as $k=>$sql) {
-                if(!mysql_query($sql)){
+                if(!mysqli_query($sql)){
                     if($debug) echo $sql;
                     //Aborting on error.
                     $errors['err']='Invalid SQL schema. Get help from Developers';
-                    $errors['sql']="[$sql] - ".mysql_error();
+                    $errors['sql']="[$sql] - ".mysqli_error();
                     break;
                 }
             }
