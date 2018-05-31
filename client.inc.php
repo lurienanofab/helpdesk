@@ -48,7 +48,7 @@ $errors=array();
 $msg='';
 $thisclient=null;
 //Make sure the user is valid..before doing anything else.
-if($_SESSION['_client']['userID'] && $_SESSION['_client']['key'])
+if(array_key_exists('_client', $_SESSION) && $_SESSION['_client']['userID'] && $_SESSION['_client']['key'])
     $thisclient = new ClientSession($_SESSION['_client']['userID'],$_SESSION['_client']['key']);
 
 //print_r($_SESSION);

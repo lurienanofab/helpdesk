@@ -90,7 +90,8 @@ class Sys {
                  ',log='.db_input($message).
                  ',ip_address='.db_input($_SERVER['REMOTE_ADDR']);
             //echo $sql;
-            mysqli_query($sql); //don't use db_query to avoid possible loop.
+            global $dblink;
+            mysqli_query($dblink, $sql); //don't use db_query to avoid possible loop.
         }
     }
 

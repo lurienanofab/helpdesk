@@ -84,7 +84,7 @@ class Misc {
     function currentURL() {
         
         $str = 'http';
-        if ($_SERVER['HTTPS'] == 'on') {
+        if (array_key_exists('HTTPS', $_SERVER) && $_SERVER['HTTPS'] == 'on') {
             $str .='s';
         }
         $str .= '://';
