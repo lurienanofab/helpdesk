@@ -1,0 +1,49 @@
+#nav a.osf_icon { background:url(../img/help_white.png) 0 5px no-repeat;}
+.osf_button{
+text-shadow: #000 -1px -1px 1px; font-weight:bold; color:#ffffff;
+border:1px solid #666666; border-radius: .3em; -khtml-border-radius: .3em; -moz-border-radius: .3em; -webkit-border-radius: .3em;
+background: #DB8606; background: -webkit-gradient(linear, left top, left bottom, from(#DB8606), to(#915804)); background: -moz-linear-gradient(top, #DB8606, #915804); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DB8606', endColorstr='#915804');/* ie7 */ -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DB8606', endColorstr='#915804');/* ie8 */
+}
+
+/* faq pages */
+#faqs h1{margin:5px 0 5px 0; clear:both; font-size:16pt;}
+#faqs h2{margin:0 0 5px 0; clear:both; font-size:14pt;}
+#faqs table tr td h1{margin:5px 0 5px 0; clear:both; font-size:1.5em;}
+#faqs pre{font:normal 10px verdana,arial,helvetica,sans-serif; color:#808080; margin-bottom:0}
+#faqs .Q{font:normal 18pt arial, helvetica,tahoma; color:#D3D3D3; background-color:#999999; width:10px; padding:10px 0 0 0; border-top:1px solid #666666; border-left:1px solid #666666;}
+#faqs .A{font:normal 18pt arial, helvetica,tahoma; color:#666666; background-color:#CCCCCC; width:10px; padding:10px 0 0 0; border-left:1px solid #666666; border-right:1px solid #666666; border-bottom:1px solid #666666}
+#faqs .question{color:#FFFFFF; font-weight:bold; margin:0; padding:3px; font-size:10pt; background-color:#999999; border-top:1px solid #666666; border-right:1px solid #666666}
+#faqs .question a:link{color:#FFFFFF; margin:0; padding:3px; font-size:10pt; text-decoration:none}
+#faqs .question a:visited{color:#FFFFFF; text-decoration:none}
+#faqs .question a:hover, .question a:active{color:#FFEECC; text-decoration:underline}
+
+#faqs p.question{padding:0}
+#faqs .answer{font-weight:normal; background:#EEEEEE; margin:0; padding:0; font-size:10pt; border:1px solid #333333}
+#faqs p.answer{padding:10px}
+#faqs .faq{font-size:12px}
+
+#faqs .fade{color:#999999;}
+
+/* external faq box to suit a page section */
+#faq_box {width:100%}
+#faq_box h3{background: url(../img/bg.jpg) repeat-x; padding: 5px 0 5px 5px; margin:0; border: 1px solid #cccccc;}
+#faq_box h4{background-color: #F9F9F9; margin:0; text-indent: 5px;}
+#faq_box a{margin:0 0 0 5px;}
+#faq_box .featured{float: left; margin: 0 10px 0 0; width: 32%;}
+#faq_box .popular{float: left; margin: 0 10px 0 0; width: 32%;}
+#faq_box .newest{float: left; margin: 0 0 0 0; width: 32%;}
+
+/* system messages */
+.messageHandlerSuccess{font-size:11px; font-weight:bold; background-color:#99ff00; padding:2px; border:1px solid #ffffff;}
+.messageHandlerWarning{font-size:11px; font-weight:bold; background-color:#FFECB3; padding:2px; border:1px solid #ffffff;}
+.messageHandlerError{font-size:11px; font-weight:bold; background-color:#FF9B9B; padding:2px; border:1px solid #ffffff;}
+
+/* pagination */
+.paginate_row {border: 1px solid #666666; padding: 2px 6px 2px 6px; background-color: #F7F7F7; font-family: Arial, Helvetica, sans-serif;}
+.paginate {color: #000080; font-size: .8em;}
+.current {color: #000080; font-size: .8em;}
+.inactive {color: #999; font-size: .8em;}
+a.paginate {border: 1px solid #000080; padding: 2px 6px 2px 6px; text-decoration: none; color: #000080;}
+a.paginate:hover {background-color: #000080; color: #FFF; text-decoration: underline;}
+a.current {border: 1px solid #000080; padding: 2px 6px 3px 6px; text-decoration: none; color: #FFF; font-weight: bold; cursor: default; background:#000080;}
+span.inactive {border: 1px solid #999; padding: 2px 6px 2px 6px; cursor: default;}

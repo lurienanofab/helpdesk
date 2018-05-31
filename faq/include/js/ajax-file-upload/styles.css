@@ -1,0 +1,23 @@
+#upload{
+	margin:10px 10px 10px 0; padding:5px;
+	font-weight:bold; font-size:1.3em;
+	font-family:Arial, Helvetica, sans-serif;
+	text-align:center;
+	color:#3366cc;
+	border:1px solid #555;
+	width:150px;
+	border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; -khtml-border-radius:5px;
+	background-color: #D1D1D1; background: -webkit-gradient(linear, left top, left bottom, from(#F2F2F2), to(#D1D1D1)); background: -moz-linear-gradient(top, #F2F2F2, #D1D1D1); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F2F2F2', endColorstr='#D1D1D1');/* ie7 */ -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F2F2F2', endColorstr='#D1D1D1');/* ie8 */
+  cursor:pointer !important;
+}
+.darkbg{
+	background:#ddd !important;
+}
+#status{
+	padding:5px;
+}
+ul#files{ list-style:none; padding:0; margin:0; }
+ul#files li{ padding:10px; margin-bottom:2px; width:120px; float:left; margin-right:10px; font-size:smaller;}
+ul#files li img{ max-width:100px; max-height:100px; }
+.success{ background:#99f099; border:1px solid #339933; }
+.error{ background:#f0c6c3; border:1px solid #cc6622; }

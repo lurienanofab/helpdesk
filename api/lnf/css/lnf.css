@@ -1,0 +1,9 @@
+body#loginBody { display: none; }
+
+.dtable td { height: 40px; }
+
+#nav a.log_in { background:url('/helpdesk/api/lnf/images/login.png') 0 5px no-repeat; }
+
+.inline-attachment {margin-top: 10px;}
+.inline-attachment .label {color: #AAAAAA; font-style: italic; border-bottom: solid 1px #AAAAAA;}
+.inline-attachment .image {padding-top: 5px;}

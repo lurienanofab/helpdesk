@@ -1,0 +1,172 @@
+<html>
+<head>
+<title>dev.localhost</title>
+<style type="text/css">
+  body {
+    font-family: 'courier new';
+  }
+  .text-input{
+    width: 400px;
+  }
+  .textarea-input{
+    width: 400px;
+    height: 200px;
+  }
+  .select-input{
+    width: 400px;
+  }
+  .button-input{
+    width: 120px;
+  }
+  #tickets{
+    font-family: arial;
+    font-size: 10pt;
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: solid 1px #A0A0A0;
+  }
+  .ticket{
+    padding: 0;
+    margin-bottom: 10px;
+  }
+  .ticket-table{
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 50%;
+    font-size: 10pt;
+  }
+  .ticket-table td{
+    padding: 3px;
+    border: solid 1px #AAAAAA
+  }
+  .ticket-table td.label{
+    background-color: #DADADA;
+  }
+  .nodata{
+    font-style: italic;
+    color: #808080;
+  }
+</style>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#create_ticket').click(function(){
+    $.post(
+      '//lnf.umich.edu/helpdesk/api/data.php',
+      {
+        'action': 'add_ticket',
+        'resource_id': $('#add_ticket_resource_id').val(),
+        'name': $('#add_ticket_name').val(),
+        'email': $('#add_ticket_email').val(),
+        'queue': $('#add_ticket_queue').val(),
+        'subject': $('#add_ticket_subject').val(),
+        'message': $('#add_ticket_message').val(),
+        'pri': $('#add_ticket_priority').val()
+      },
+      function(data, textStatus, jqXHR){
+        $('#tickets').html('');
+        print_tickets(data);
+      }
+    );
+  });
+  $('#select_tickets').click(function(){
+    $.post(
+      '//lnf.umich.edu/helpdesk/api/data.php',
+      {'resource_id': $('#add_ticket_resource_id').val()},
+      function(data, textStatus, jqXHR){
+        print_tickets(data);
+      }
+    );
+  });
+});
+
+function print_tickets(xdoc){
+  $('#tickets').html('');
+  var rows = xdoc.getElementsByTagName('row');
+  if (rows.length > 0){
+    for (i = 0; i < rows.length; i++){
+      var ticket = $('<div class="ticket"><table class="ticket-table"></table></div>').appendTo($('#tickets'));
+      $('.ticket-table', ticket).append('<tr><td class="label" style="width: 100px;">TicketID:</td><td class="data"><a href="'+ticket_url(rows[i])+'">'+getval(rows[i], 'ticketID', '')+'</a></td></tr>');
+      $('.ticket-table', ticket).append('<tr><td class="label">Created On:</td><td class="data">'+getval(rows[i], 'created', '')+'</td></tr>');
+      $('.ticket-table', ticket).append('<tr><td class="label">Created By:</td><td class="data">'+getval(rows[i], 'email', '')+'</td></tr>');
+      $('.ticket-table', ticket).append('<tr><td class="label">Assigned To:</td><td class="data">'+getval(rows[i], 'assigned_to', '<span class="nodata">[unassigned]</span>')+'</td></tr>');
+      $('.ticket-table', ticket).append('<tr><td class="label">Subject:</td><td class="data">'+getval(rows[i], 'subject', '')+'</td></tr>');
+    }
+  }
+  else{
+    $('<div class="nodata">No tickets were found for this resource.</div>').appendTo($('#tickets'));
+  }
+}
+function getval(row, column, defval){
+  var result = defval;
+  var nodes = row.getElementsByTagName(column);
+  if (nodes.length > 0){
+    if (nodes[0].childNodes.length > 0){
+      result = nodes[0].childNodes[0].nodeValue;
+    }
+  }
+  return result;
+}
+function ticket_url(row){
+  return 'http://lnf.umich.edu/helpdesk/view.php?e='+getval(row, 'email', '')+'&t='+getval(row, 'ticketID', '');
+}
+</script>
+</head>
+<body>
+<span style="font-size: 14pt; font-weight: bold;">dev.localhost</span>
+<hr />
+<form action="" method="post">
+<input type="hidden" name="action" value="add_ticket" /></td>
+<table>
+  <tr>
+    <td>Resource ID:</td>
+    <td><input type="text" id="add_ticket_resource_id" name="add_ticket_resource_id" class="text-input" value="10030" /></td>
+  </tr>
+  <tr>
+    <td>Full Name:</td>
+    <td><input type="text" id="add_ticket_name" name="add_ticket_name" class="text-input" value="Jim Getty" /></td>
+  </tr>
+  <tr>
+    <td>Email:</td>
+    <td><input type="text" id="add_ticket_email" name="add_ticket_email" class="text-input" value="jgett@umich.edu" /></td>
+  </tr>
+  <tr>
+    <td>Subject:</td>
+    <td><input type="text" id="add_ticket_subject" name="add_ticket_subject" class="text-input" value="this is a test" /></td>
+  </tr>
+  <tr>
+    <td>Message:</td>
+    <td><textarea id="add_ticket_message" name="add_ticket_message" cols="30" rows="10" class="textarea-input">Does this thing work?</textarea></td>
+  </tr>
+  <tr>
+    <td>Priority:</td>
+    <td>
+      <select id="add_ticket_priority" name="add_ticket_priority" class="select-input">
+        <option value="1">General Question</option>
+        <option value="2">Process Issue</option>
+        <option value="3">Hardware Issue</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Queue:</td>
+    <td>
+      <select id="add_ticket_queue" name="add_ticket_queue" class="select-input">
+        <option value="helpdesk.support@lnf.umich.edu">helpdesk.support@lnf.umich.edu</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="button" id="create_ticket" value="Create Ticket" class="button-input" /></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="button" id="select_tickets" value="Select Tickets" class="button-input" /></td>
+  </tr>
+</table>
+<div id="tickets">
+</div>
+</form>
+</body>
+</html>

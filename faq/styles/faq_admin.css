@@ -1,0 +1,39 @@
+/* appends to the osTicket button style */
+div.osf_button{display:inline; padding:2px 10px 2px 10px;}
+input[type="submit"].osf_button{display:inline; padding:1px 10px 1px 10px;}
+.osf_button{
+text-shadow: #000 -1px -1px 1px; font-weight:bold; color:#ffffff; font-family:arial, helvetica, sans-serif; font-size:10pt;
+border:1px solid #666666; border-radius: .3em; -khtml-border-radius: .3em; -moz-border-radius: .3em; -webkit-border-radius: .3em;
+background: #DB8606; background: -webkit-gradient(linear, left top, left bottom, from(#DB8606), to(#915804)); background: -moz-linear-gradient(top, #DB8606, #915804); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DB8606', endColorstr='#915804');/* ie7 */ -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DB8606', endColorstr='#915804');/* ie8? */
+}
+.osf_red{color:red;}
+
+/* page headings */
+h1 {font-family: Arial, Helvetica, sans-serif; text-decoration: none; font-weight: bold; color:#006699; font-size: 14px;}
+h2 {font-family: Arial, Helvetica, sans-serif; text-decoration: none; font-weight: bold; color:#006699; font-size: 13px;}
+
+td p{font-size: 12px;}
+
+/* admin side box */
+table.faqinfo th {color: #FFF; background:#ADADAD; font-size: 12px; font-weight:bold; text-align:left;}
+table.faqinfo th a, table.faqinfo th a:hover {color:#FFF; text-decoration:underline;}
+
+table.faqinfo {border-left: 1px solid;}
+table.faqinfo td {padding-left:3px; font-size:10px; color:#000000; background-color:#E0E0E0;}
+table.faqinfo, table.faqinfo td, table.faqinfo th {border-color:#CCC;}
+
+/* system messages */
+.messageHandlerSuccess{font-size:11px; font-weight:bold; background-color:#99ff00; padding:2px; border:1px solid #ffffff;}
+.messageHandlerWarning{font-size:11px; font-weight:bold; background-color:#FFECB3; padding:2px; border:1px solid #ffffff;}
+.messageHandlerError{font-size:11px; font-weight:bold; background-color:#FF9B9B; padding:2px; border:1px solid #ffffff;}
+.messageHandlerPlain{font-size:11px; font-weight:bold; background-color:#FFFFFF; padding:2px; border:1px solid #ffffff;}
+
+/* pagination */
+.paginate_row {border: 1px solid #999; padding: 2px 6px 2px 6px; background-color: #F7F7F7; font-family: Arial, Helvetica, sans-serif;}
+.paginate {color: #000080; font-size: .8em;}
+.current {color: #000080; font-size: .8em;}
+.inactive {color: #999; font-size: .8em;}
+a.paginate {border: 1px solid #000080; padding: 2px 6px 2px 6px; text-decoration: none; color: #000080;}
+a.paginate:hover {background-color: #000080; color: #FFF; text-decoration: underline;}
+a.current {border: 1px solid #000080; padding: 2px 6px 2px 6px; font-weight: bold; cursor: default; background:#000080; color: #FFF; text-decoration: none;}
+span.inactive {border: 1px solid #999; padding: 2px 6px 2px 6px; cursor: default;}

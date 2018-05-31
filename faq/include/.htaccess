@@ -1,0 +1,13 @@
+# deny everything
+<FilesMatch ".*">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# allow necessary
+<FilesMatch ".*\.(js|css|jpg|JPG|gif|GIF|png|PNG)$">
+  Order Allow,Deny
+  Allow from all
+</FilesMatch>
+
+IndexIgnore */*
